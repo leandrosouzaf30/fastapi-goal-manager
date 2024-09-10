@@ -25,3 +25,30 @@ def test_create_goal(client):
         'title': 'Ir para academia',
         'desired_weekly_frequency': 5,
     }
+
+
+def test_get_goals(client):
+    response = client.get('/goals')
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {'goals': []}
+
+
+def test_update_goal(client, goal):
+    response = client.put(
+        '/goal/1',
+        json={
+            'title': 'Ir para academia',
+            'desired_weekly_frequency': 5,
+        },
+    )
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {
+        'title': 'Ir para academia',
+        'desired_weekly_frequency': 5,
+        'id': 1,
+    }
+
+    def test_delete_goal(client, goal):
+        response = client.delete('/goal/1')
+        assert response.status_code == HTTPStatus.OK
+        assert response.json() == {'message': 'Goal deleted'}

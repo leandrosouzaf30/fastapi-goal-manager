@@ -6,7 +6,7 @@ from sqlalchemy.pool import StaticPool
 
 from src.app import app
 from src.config.database import get_session
-from src.domain.models.goal_model import table_registry
+from src.domain.models.goal_model import Goal, table_registry
 
 
 @pytest.fixture
@@ -34,3 +34,16 @@ def session():
         yield session
 
     table_registry.metadata.drop_all(engine)
+
+
+@pytest.fixture
+def goal(session):
+    goal = Goal(
+        title='Ir para academia',
+        desired_weekly_frequency=5,
+    )
+    session.add(goal)
+    session.commit()
+    session.refresh(goal)
+
+    return goal
