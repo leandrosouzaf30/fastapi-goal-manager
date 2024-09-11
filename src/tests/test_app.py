@@ -16,7 +16,7 @@ def test_root_deve_retornar_ok_e_ola_mundo():
 
 def test_create_goal(client):
     response = client.post(
-        '/goal',
+        '/create_goal',
         json={'title': 'Ir para academia', 'desired_weekly_frequency': 5},
     )
     assert response.status_code == HTTPStatus.CREATED
@@ -28,14 +28,14 @@ def test_create_goal(client):
 
 
 def test_get_goals(client):
-    response = client.get('/goals')
+    response = client.get('/week_pending_goals')
     assert response.status_code == HTTPStatus.OK
-    assert response.json() == {'goals': []}
+    assert response.json() == []
 
 
 def test_update_goal(client, goal):
     response = client.put(
-        '/goal/1',
+        '/update_goal/1',
         json={
             'title': 'Ir para academia',
             'desired_weekly_frequency': 5,
@@ -49,6 +49,6 @@ def test_update_goal(client, goal):
     }
 
     def test_delete_goal(client, goal):
-        response = client.delete('/goal/1')
+        response = client.delete('/delete_goal/1')
         assert response.status_code == HTTPStatus.OK
         assert response.json() == {'message': 'Goal deleted'}

@@ -19,3 +19,7 @@ class GoalSchema(BaseModel):
 
 class GoalsList(BaseModel):
     goals: list[GetGoalresponse]
+
+
+class GoalComplete(BaseModel):
+    goal_id: int
